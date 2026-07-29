@@ -360,9 +360,24 @@ body {
 
 ---
 
-## 8. 디자인 품질 체크리스트 (QA Checklist)
+## 9. 디자인 화면 시각화 (UI Screen Mockups)
+
+`design.md` 가이드를 바탕으로 디자인한 메인 인트로, 질문 진행, 결과 상세 화면의 실제 UI 목업입니다.
+
+````carousel
+![메인 인트로 화면 목업](/Users/Min/.gemini/antigravity-ide/brain/31d29aa5-2174-4eee-b32b-13a77612f193/main_screen_ui_1785307722462.png)
+<!-- slide -->
+![질문 진행 화면 목업](/Users/Min/.gemini/antigravity-ide/brain/31d29aa5-2174-4eee-b32b-13a77612f193/question_screen_ui_1785307734330.png)
+<!-- slide -->
+![결과 상세 화면 목업](/Users/Min/.gemini/antigravity-ide/brain/31d29aa5-2174-4eee-b32b-13a77612f193/result_screen_ui_1785307747008.png)
+````
+
+---
+
+## 10. 디자인 품질 체크리스트 (QA Checklist)
 
 * [ ] 모바일(375px 너비)부터 데스크톱 해상도까지 수평 스크롤 없이 깨끗하게 출력되는가?
 * [ ] 모든 버튼 및 선택지 카드의 클릭/터치 높이가 최소 48px 이상인가?
 * [ ] 문항을 변경하거나 선택할 때 0.3초 이내의 부드러운 애니메이션이 구동되는가?
 * [ ] 성향별 테마 컬러 및 환상의/상극 콤비 배지가 시각적으로 명확히 대비되는가?
+
