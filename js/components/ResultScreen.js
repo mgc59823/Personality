@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Personality Test - Result Screen Component
+   Personality Test - Result Screen Component (최종 결과 화면)
    ========================================================================== */
 
 export function renderResultScreen({ resultData, onRestart, onShare }) {
@@ -16,15 +16,20 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
 
   const improvementsHtml = resultData.improvements.map(i => `
     <div class="analysis-item">
-      <span class="analysis-bullet" style="color: var(--color-accent-coral);">!</span>
+      <span class="analysis-bullet alert">!</span>
       <span>${i}</span>
     </div>
   `).join('');
 
   container.innerHTML = `
-    <!-- Result Header Card -->
+    <!-- Top Celebration Announcement -->
+    <div class="result-top-banner">
+      🎉 당신의 창업 DNA 분석이 완료되었습니다!
+    </div>
+
+    <!-- 1. Result Header Card (Theme Aware) -->
     <div class="result-header-card ui-card" style="background-color: ${resultData.themeBg}; border-color: ${resultData.themePrimary};">
-      <div class="result-subtitle">당신의 창업 DNA 결과</div>
+      <div class="result-subtitle">2026 대학생 창업 성향 분석 결과</div>
       
       <span class="badge ${resultData.themeClass}">
         ${resultData.title}
@@ -43,7 +48,7 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
       </div>
     </div>
 
-    <!-- Detailed Analysis Card -->
+    <!-- 2. Detailed Analysis Card -->
     <div class="ui-card">
       <div class="section-title">
         <span>💪</span> 내 핵심 창업 강점
@@ -60,7 +65,7 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
       </div>
     </div>
 
-    <!-- ⭐ Team Building Combination Grid -->
+    <!-- 3. ⭐ Team Building Combination Grid -->
     <div class="combi-grid">
       <div class="combi-card best">
         <div class="combi-header">
@@ -79,13 +84,13 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
       </div>
     </div>
 
-    <!-- Team Building Tips Box -->
+    <!-- 4. Team Building Tips Box -->
     <div class="tip-box">
       <strong style="display: block; margin-bottom: 4px;">🤝 캠프 현장 팀원 찾기 팁</strong>
       ${resultData.teamTip}
     </div>
 
-    <!-- Action Buttons -->
+    <!-- 5. Action Buttons -->
     <div class="result-footer-actions">
       <button id="btn-share-result" class="btn btn-primary animate-pop">
         <span>🔗</span> 결과 링크 복사하기
@@ -97,17 +102,25 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
     </div>
   `;
 
+  // Attach Event Handlers
   setTimeout(() => {
     const shareBtn = container.querySelector('#btn-share-result');
     if (shareBtn) {
-      shareBtn.addEventListener('click', onShare);
+      shareBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        onShare();
+      });
     }
 
     const restartBtn = container.querySelector('#btn-restart-test');
     if (restartBtn) {
-      restartBtn.addEventListener('click', onRestart);
+      restartBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        onRestart();
+      });
     }
   }, 0);
 
   return container;
 }
+
