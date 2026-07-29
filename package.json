@@ -1,0 +1,8 @@
+{
+  "name": "personality-test",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p js && echo \"window.KAKAO_JAVASCRIPT_KEY = '${VITE_KAKAO_JAVASCRIPT_KEY:-$KAKAO_JAVASCRIPT_KEY}';\" > js/env.js"
+  }
+}

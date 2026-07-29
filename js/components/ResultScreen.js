@@ -2,7 +2,8 @@
    Personality Test - Result Screen Component (최종 결과 화면)
    ========================================================================== */
 
-export function renderResultScreen({ resultData, onRestart, onShare }) {
+export function renderResultScreen({ resultData, onRestart, onShare, onKakaoShare }) {
+
   const container = document.createElement('div');
   container.className = 'result-container animate-slide-up';
 
@@ -92,7 +93,11 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
 
     <!-- 5. Action Buttons -->
     <div class="result-footer-actions">
-      <button id="btn-share-result" class="btn btn-primary animate-pop">
+      <button id="btn-share-kakao" class="btn btn-kakao animate-pop">
+        <span>💬</span> 카카오톡으로 공유하기
+      </button>
+
+      <button id="btn-share-result" class="btn btn-primary">
         <span>🔗</span> 결과 링크 복사하기
       </button>
 
@@ -104,6 +109,14 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
 
   // Attach Event Handlers
   setTimeout(() => {
+    const kakaoBtn = container.querySelector('#btn-share-kakao');
+    if (kakaoBtn && onKakaoShare) {
+      kakaoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        onKakaoShare();
+      });
+    }
+
     const shareBtn = container.querySelector('#btn-share-result');
     if (shareBtn) {
       shareBtn.addEventListener('click', (e) => {
@@ -123,4 +136,5 @@ export function renderResultScreen({ resultData, onRestart, onShare }) {
 
   return container;
 }
+
 

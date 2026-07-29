@@ -9,6 +9,7 @@ import { renderQuestionScreen } from './components/QuestionScreen.js';
 import { renderLoadingScreen } from './components/LoadingScreen.js';
 import { renderResultScreen } from './components/ResultScreen.js';
 import { showToast } from './components/Toast.js';
+import { shareKakaoTalk, initKakaoSDK } from './utils/kakaoShare.js';
 
 class App {
   constructor() {
@@ -26,6 +27,9 @@ class App {
   }
 
   init() {
+    // Initialize Kakao SDK
+    initKakaoSDK();
+
     // Check if result type is in URL query parameter (for direct result sharing)
     const urlParams = new URLSearchParams(window.location.search);
     const resultParam = urlParams.get('result');
@@ -89,12 +93,14 @@ class App {
           renderResultScreen({
             resultData: this.finalResult,
             onRestart: () => this.restartTest(),
-            onShare: () => this.shareResult()
+            onShare: () => this.shareResult(),
+            onKakaoShare: () => this.shareKakao()
           })
         );
         break;
     }
   }
+
 
   startTest() {
     this.currentScreen = 'question';
@@ -168,6 +174,15 @@ class App {
     this.render();
   }
 
+  shareKakao() {
+    if (!this.finalResult) return;
+    const shareUrl = `${window.location.origin}${window.location.pathname}?result=${this.finalResult.id}`;
+    shareKakaoTalk({
+      resultData: this.finalResult,
+      shareUrl: shareUrl
+    });
+  }
+
   shareResult() {
     if (!this.finalResult) return;
     const shareUrl = `${window.location.origin}${window.location.pathname}?result=${this.finalResult.id}`;
@@ -197,6 +212,7 @@ class App {
     document.body.removeChild(textArea);
   }
 }
+
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {

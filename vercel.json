@@ -1,0 +1,4 @@
+{
+  "buildCommand": "mkdir -p js && echo \"window.KAKAO_JAVASCRIPT_KEY = '${VITE_KAKAO_JAVASCRIPT_KEY:-$KAKAO_JAVASCRIPT_KEY}';\" > js/env.js",
+  "outputDirectory": "."
+}
