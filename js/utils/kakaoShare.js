@@ -75,7 +75,8 @@ export function shareKakaoTalk({ resultData, shareUrl }) {
     return true;
   } catch (err) {
     console.error('Kakao Share Error:', err);
-    alert('카카오톡 공유 도중 오류가 발생했습니다.');
+    alert('카카오톡 공유 요청 실패 (Error Code 4019).\nKakao Developers [플랫폼] > [Web]에 현재 도메인(예: http://localhost:3000)을 등록해 주세요.');
     return false;
   }
 }
+
