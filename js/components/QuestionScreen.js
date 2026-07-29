@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Personality Test - Question Screen Component
+   Personality Test - Question Screen Component (테스트 진행 화면)
    ========================================================================== */
 
 export function renderQuestionScreen({ question, selectedOption, onSelect, onPrev, isFirst }) {
@@ -9,10 +9,10 @@ export function renderQuestionScreen({ question, selectedOption, onSelect, onPre
   const optionsHtml = question.options.map((opt) => {
     const isSelected = selectedOption && selectedOption.label === opt.label;
     return `
-      <div class="option-card ${isSelected ? 'selected' : ''}" data-label="${opt.label}" data-type="${opt.type}">
+      <div class="option-card ${isSelected ? 'selected' : ''}" data-label="${opt.label}" data-type="${opt.type}" tabindex="0" role="button">
         <div class="option-label">${opt.label}</div>
         <div class="option-text">${opt.text}</div>
-        ${isSelected ? '<div class="option-checkmark">✓</div>' : ''}
+        ${isSelected ? '<div class="option-checkmark">✓</div>' : '<div class="option-checkmark-placeholder"></div>'}
       </div>
     `;
   }).join('');
@@ -30,22 +30,42 @@ export function renderQuestionScreen({ question, selectedOption, onSelect, onPre
     <div class="question-actions">
       ${!isFirst ? `
         <button id="btn-prev-question" class="btn btn-outline btn-prev">
-          ← 이전
+          ← 이전 질문
         </button>
-      ` : ''}
+      ` : '<div></div>'}
     </div>
   `;
 
+  // Attach Event Handlers
   setTimeout(() => {
-    // Option Click Handlers
+    let isProcessing = false;
     const optionCards = container.querySelectorAll('.option-card');
+    
     optionCards.forEach(card => {
-      card.addEventListener('click', () => {
+      const handleSelect = () => {
+        if (isProcessing) return;
+        isProcessing = true;
+
+        // Visual feedback
+        optionCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+
         const label = card.getAttribute('data-label');
-        const type = card.getAttribute('data-type');
         const chosen = question.options.find(o => o.label === label);
+
         if (chosen) {
-          onSelect(chosen);
+          // Brief 220ms delay for user feedback satisfaction
+          setTimeout(() => {
+            onSelect(chosen);
+          }, 220);
+        }
+      };
+
+      card.addEventListener('click', handleSelect);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleSelect();
         }
       });
     });
@@ -53,9 +73,13 @@ export function renderQuestionScreen({ question, selectedOption, onSelect, onPre
     // Prev Button Handler
     const prevBtn = container.querySelector('#btn-prev-question');
     if (prevBtn) {
-      prevBtn.addEventListener('click', onPrev);
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        onPrev();
+      });
     }
   }, 0);
 
   return container;
 }
+
